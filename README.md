@@ -24,10 +24,9 @@ pip install -r requirements.txt
 
 4. Criar um arquivo .env na raiz do projeto com as credenciais do seu database e a secret key, seguindo o padrão do .env.example
 
-5. Criar as migrações e persisti-las no database:
+5. Persistir as migrações no database:
 
 ```
-python manage.py makemigrations
 python manage.py migrate
 ```
 
