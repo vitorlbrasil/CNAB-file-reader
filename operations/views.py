@@ -11,6 +11,9 @@ class OperationView(ListCreateAPIView):
     queryset = Operation.objects.all()
 
     def perform_create(self, serializer):
+        cnab_text = self.request.FILES["cnab_file"].read().decode()
+        lines = cnab_text.splitlines()
+
         types = {
             1: {"description": "DÉBITO", "income": True},
             2: {"description": "BOLETO", "income": False},
@@ -23,18 +26,20 @@ class OperationView(ListCreateAPIView):
             9: {"description": "ALUGUEL", "income": False},
         }
 
-        cnab_text = self.request.FILES["cnab_file"].read().decode()
-        lines = cnab_text.splitlines()
-
         for line in lines:
-            type = line[0]
+            type = int(line[0])
+            description = types[type]["description"]
+            income = types[type]["income"]
             date = f"{line[1:5]}-{line[5:7]}-{line[7:9]}"
-            value = int(line[9:19]) / 100
             cpf = line[19:30]
             card = line[30:42]
             hour = f"{line[42:44]}:{line[44:46]}:{line[46:48]}"
             store_owner = line[48:62].strip()
             store_name = line[62:80].strip()
+
+            value = int(line[9:19]) / 100
+            if income is False:
+                value *= -1
 
             store, _ = Store.objects.get_or_create(
                 store_name=store_name, store_owner=store_owner
@@ -42,6 +47,7 @@ class OperationView(ListCreateAPIView):
 
             Operation.objects.create(
                 type=type,
+                description=description,
                 date=date,
                 value=value,
                 cpf=cpf,
