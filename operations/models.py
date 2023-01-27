@@ -9,6 +9,7 @@ class Operation(models.Model):
         editable=False,
     )
     type = models.PositiveSmallIntegerField()
+    description = models.CharField(max_length=30)
     date = models.DateField()
     value = models.FloatField()
     cpf = models.CharField(max_length=11)

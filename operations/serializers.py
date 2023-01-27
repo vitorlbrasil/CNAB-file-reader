@@ -13,6 +13,7 @@ class OperationSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "type",
+            "description",
             "date",
             "value",
             "cpf",
@@ -24,6 +25,7 @@ class OperationSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "type",
+            "description",
             "date",
             "value",
             "cpf",
@@ -32,7 +34,3 @@ class OperationSerializer(serializers.ModelSerializer):
             "store",
         ]
         depth = 1
-
-
-class OperationFileSerializer(serializers.Serializer):
-    ...
