@@ -12,8 +12,16 @@ python -m venv venv
 
 2. Ativar o ambiente virtual:
 
+- No Linux:
+
 ```
 source venv/bin/activate
+```
+
+- No Windows:
+
+```
+.\venv\Scripts\activate
 ```
 
 3. Instalar as dependências do projeto:
